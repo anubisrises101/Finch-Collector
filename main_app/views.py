@@ -1,7 +1,7 @@
 # main_app/views.py
 
 from django.shortcuts import render
-
+from .models import Finch
 
 # Define the home view function
 def home(request):
@@ -15,23 +15,11 @@ def about(request):
     return render(request, "about.html")
 
 
-class Finch:
-    def __init__(self, name, breed, description, age):
-        self.name = name
-        self.breed = breed
-        self.description = description
-        self.age = age
-
-
-# Create a list of Finch instances
-finches = [
-    Finch("Lolo", "House Finch", "Kinda nice.", 3),
-    Finch("Sachi", "Rose Finch", "reddish pink.", 0),
-    Finch("Fancy", "Purple Finch", "Happy fluff ball.", 4),
-    Finch("Bonk", "Eurasian Bullfinch", "loud.", 6),
-]
-
-
 def finch_index(request):
-    # Render the finches/index.html template with the finches data
-    return render(request, "finches/index.html", {"finches": finches})
+    finches = Finch.objects.all()
+    return render(request, 'finches/index.html', {'finches': finches})
+
+
+def finch_detail(request, finch_id):
+    finch = Finch.objects.get(id=finch_id)
+    return render(request, 'finches/detail.html', {'finch': finch})
