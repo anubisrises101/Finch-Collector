@@ -1,37 +1,39 @@
 from django.db import models
 from django.urls import reverse
 
-
-MEALS = (("B", "Breakfast"), ("L", "Lunch"), ("D", "Dinner"))
-
+MEALS = (
+  ('B', 'Breakfast'),
+  ('L', 'Lunch'),
+  ('D', 'Dinner')
+)
 
 # Create your models here.
 class Finch(models.Model):
-    name = models.CharField(max_length=100)
-    breed = models.CharField(max_length=100)
-    description = models.TextField(max_length=250)
-    age = models.IntegerField()
+  name = models.CharField(max_length=100)
+  breed = models.CharField(max_length=100)
+  description = models.TextField(max_length=250)
+  age = models.IntegerField()
 
-    def __str__(self):
-        return self.name
-
-    def get_absolute_url(self):
-        return reverse("finch-detail", kwargs={"finch_id": self.id})
-
-
+  def __str__(self):
+    return f'{self.name} ({self.id})'
+  
+  def get_absolute_url(self):
+    return reverse('finch-detail', kwargs={'finch_id': self.id})
+  
 class Feeding(models.Model):
-    date = models.DateField()
-    meal = models.CharField(
-        max_length=1,
-        choices=MEALS,
-        # set the default value for meal to be 'B'
-        default=MEALS[0][0],
-    )
-    finch = models.ForeignKey(Finch, on_delete=models.CASCADE)
+  date = models.DateField('Feeding date')
+  meal = models.CharField(
+    max_length=1,
+    choices=MEALS,
+    default=MEALS[0][0]
+  )
+  # The "many"/"child" side of a 1:M relationship
+  # must always have a ForeignKey field
+  # There will be a finch_id column/field
+  finch = models.ForeignKey(Finch, on_delete=models.CASCADE)
 
-    def __str__(self):
-        # Nice method for obtaining the friendly value of a Field.choice
-        return f"{self.get_meal_display()} on {self.date}"
-
-    class Meta:
-        ordering = ["-date"]
+  def __str__(self):
+    return f'{self.get_meal_display()} on {self.date}'
+  
+  class Meta:
+    ordering = ['-date']

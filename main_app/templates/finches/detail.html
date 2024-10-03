@@ -3,7 +3,7 @@
 {% endblock %} {% block content %}
 <section class="finch-container">
   <div class="finch-img">
-    <img src="{% static 'images/sk8r-boi-finch.svg' %}" alt="A skater boy finch" />
+    {% comment %} <img src="{% static 'images/sk8r-boi-finch.svg' %}" alt="A skater boy finch" /> {% endcomment %}
   </div>
   <div class="finch-details">
     <h1>{{ finch.name }}</h1>
@@ -26,15 +26,15 @@
   <section class="feedings">
     <div class="subsection-title">
       <h2>Feedings</h2>
-      <img
+      {% comment %} <img
         src="{% static 'images/finch-cone.svg' %}"
         alt="An ice cream cone finch"
-      />
-      <img src="{% static 'images/finch-onigiri.svg' %}" alt="A finch as onigiri" />
+      /> {% endcomment %}
+      {% comment %} <img src="{% static 'images/finch-onigiri.svg' %}" alt="A finch as onigiri" />
       <img
         src="{% static 'images/kitty-kabob.svg' %}"
         alt="A kabob of kittens"
-      />
+      /> {% endcomment %}
     </div>
 
     <h3>Add a Feeding</h3>
