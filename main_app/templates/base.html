@@ -17,18 +17,13 @@
   <body>
     <header>
       <div class="header-logo-container">
-        <a href="/">
-          <img
-            src="{% static 'images/header-logo.svg' %}"
-            alt="The Finch Collector Logo"
-          />
-        </a>
+        <a href="/">Finch collector</a>
       </div>
       <nav>
         <ul>
-          <li><a href="{% url 'finch-index' %}">All Finches</a></li>
-          <li><a href="{% url 'about' %}">About</a></li>
-          
+          <li><a href="{% url 'finch-index'  %}">All Finches</a></li>
+          <li><a href="{% url 'finch-create' %}">Add a Finch</a></li>
+          <li><a href="{% url 'about'  %}">About</a></li>
         </ul>
       </nav>
     </header>
