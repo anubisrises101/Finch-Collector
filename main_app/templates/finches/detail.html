@@ -3,7 +3,12 @@
 {% endblock %} {% block content %}
 <section class="finch-container">
   <div class="finch-img">
-    {% comment %} <img src="{% static 'images/sk8r-boi-finch.svg' %}" alt="A skater boy finch" /> {% endcomment %}
+    {% comment %}
+    <img
+      src="{% static 'images/sk8r-boi-finch.svg' %}"
+      alt="A skater boy finch"
+    />
+    {% endcomment %}
   </div>
   <div class="finch-details">
     <h1>{{ finch.name }}</h1>
@@ -26,15 +31,21 @@
   <section class="feedings">
     <div class="subsection-title">
       <h2>Feedings</h2>
-      {% comment %} <img
+      {% comment %}
+      <img
         src="{% static 'images/finch-cone.svg' %}"
         alt="An ice cream cone finch"
-      /> {% endcomment %}
-      {% comment %} <img src="{% static 'images/finch-onigiri.svg' %}" alt="A finch as onigiri" />
+      />
+      {% endcomment %} {% comment %}
+      <img
+        src="{% static 'images/finch-onigiri.svg' %}"
+        alt="A finch as onigiri"
+      />
       <img
         src="{% static 'images/kitty-kabob.svg' %}"
         alt="A kabob of kittens"
-      /> {% endcomment %}
+      />
+      {% endcomment %}
     </div>
 
     <h3>Add a Feeding</h3>
@@ -71,6 +82,58 @@
       <p>⚠️ {{finch.name}} has not been fed!</p>
     </div>
     {% endif %}
+  </section>
+
+  <section class="toys">
+    <div class="subsection-title">
+      <h2>Toys</h2>
+      <img src="{% static 'images/string.svg' %}" alt="A ball of string" />
+      <img src="{% static 'images/mouse.svg' %}" alt="A mouse" />
+      <img src="{% static 'images/fish.svg' %}" alt="A fishy toy" />
+    </div>
+
+    <!-- displaying a finch's toys -->
+    <h3>{{ finch.name }}'s Toys</h3>
+    <div class="subsection-content">
+      {% if finch.toys.count %} {% for toy in finch.toys.all %}
+      <div class="toy-container">
+        <div
+          class="color-block"
+          style="background-color: {{ toy.color }}"
+        ></div>
+        <a href="{% url 'toy-detail' toy.id %}">
+          <p>A {{ toy.color }} {{ toy.name }}</p>
+        </a>
+      </div>
+      {% endfor %} {% else %}
+      <p class="no-toys">{{finch.name}} doesn't have any toys!</p>
+      {% endif %}
+    </div>
+
+    <h3>Available Toys</h3>
+    <div class="subsection-content">
+      {% if toys.count %} {% for toy in toys.all %}
+      <div class="toy-container">
+        <div
+          class="color-block"
+          style="background-color: {{ toy.color }}"
+        ></div>
+        <a href="{% url 'toy-detail' toy.id %}">
+          <p>A {{ toy.color }} {{ toy.name }}</p>
+        </a>
+        <form action="{% url 'associate-toy' finch.id toy.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn submit">Give toy</button>
+        </form>
+      </div>
+      {% endfor %} {% else %}
+      <p class="all-toys">{{finch.name}} already has all the available toys 🥳</p>
+      {% endif %}
+    </div>
+    <form action="{% url 'remove-toy' finch.id toy.id %}" method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Remove Toy</button>
+    </form>
   </section>
 </div>
 
