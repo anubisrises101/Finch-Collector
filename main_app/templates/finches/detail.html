@@ -84,7 +84,7 @@
     {% endif %}
   </section>
 
-  <section class="toys">
+   <section class="toys">
     <div class="subsection-title">
       <h2>Toys</h2>
       <img src="{% static 'images/string.svg' %}" alt="A ball of string" />
@@ -92,10 +92,9 @@
       <img src="{% static 'images/fish.svg' %}" alt="A fishy toy" />
     </div>
 
-    <!-- displaying a finch's toys -->
     <h3>{{ finch.name }}'s Toys</h3>
     <div class="subsection-content">
-      {% if finch.toys.count %} {% for toy in finch.toys.all %}
+      {% for toy in finch.toys.all %}
       <div class="toy-container">
         <div
           class="color-block"
@@ -104,36 +103,32 @@
         <a href="{% url 'toy-detail' toy.id %}">
           <p>A {{ toy.color }} {{ toy.name }}</p>
         </a>
+        <form action="{% url 'remove-toy' finch.id toy.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn submit">Remove Toy</button>
+        </form>
       </div>
-      {% endfor %} {% else %}
+      {% empty %}
       <p class="no-toys">{{finch.name}} doesn't have any toys!</p>
-      {% endif %}
+      {% endfor %}
     </div>
 
     <h3>Available Toys</h3>
     <div class="subsection-content">
-      {% if toys.count %} {% for toy in toys.all %}
+      {% for toy in toys %}
       <div class="toy-container">
         <div
           class="color-block"
           style="background-color: {{ toy.color }}"
         ></div>
-        <a href="{% url 'toy-detail' toy.id %}">
-          <p>A {{ toy.color }} {{ toy.name }}</p>
-        </a>
+        <p>{{ toy.color }} {{ toy.name }}</p>
         <form action="{% url 'associate-toy' finch.id toy.id %}" method="post">
           {% csrf_token %}
-          <button type="submit" class="btn submit">Give toy</button>
+          <button type="submit" class="btn submit">Give Toy</button>
         </form>
       </div>
-      {% endfor %} {% else %}
-      <p class="all-toys">{{finch.name}} already has all the available toys 🥳</p>
-      {% endif %}
+      {% endfor %}
     </div>
-    <form action="{% url 'remove-toy' finch.id toy.id %}" method="post">
-      {% csrf_token %}
-      <button type="submit" class="btn btn-danger">Remove Toy</button>
-    </form>
   </section>
 </div>
 
